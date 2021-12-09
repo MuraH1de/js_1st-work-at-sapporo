@@ -1,0 +1,99 @@
+body{
+    margin:0;
+    padding:0;
+    text-align:left;
+    font-size: 32px;
+}
+header{
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+main{
+    border-bottom:1px solid #ccc;
+}
+footer{
+    background-color: #fff;
+    border-bottom:1px solid #ccc;
+    text-align: center;
+}
+p{
+    font-size:200%;
+    text-align: center;
+    border-bottom:1px solid #fff;
+    height:200px;
+}
+ul{
+    padding: 0;
+    border-top: 1px solid #000000;
+    display:table;  /* 定義 */
+    table-layout: fixed;
+    width:100%;
+}
+li{
+    text-align: center;
+    list-style-type:none;
+    border: 1px solid #666;
+    background-color: #FFF;
+    display:table-cell;  /* 定義 */
+    cursor: pointer;
+}
+li:hover{
+    background: #0066CC;
+    color:#fff;
+}
+
+/* ランダム表示 */
+.pc_hds_area{
+    box-sizing: border-box;
+    border: 2px solid #CCC;
+    padding: 10px 10px 20px 10px;
+    text-align: center;
+}
+
+.pc_hds_img{
+    text-align: center;
+}
+.jk_btn_area{
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    margin: auto;
+    height: 48px;
+    width: 256px;
+}
+
+.txt-center{
+    text-align: center;
+}
+
+.form-label{
+    font-size: 1.4rem;
+    text-align: left;
+}
+
+input[type*="radio"]{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0 10px 16px 0;
+    border: solid 1px #a0a0a0;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    vertical-align: -18px;
+}
+
+input[type*="radio"]:checked{
+    background-color: #a0a0a0;
+}
+
+.select-items{
+    width: 400px;
+    margin: auto;
+    text-align: left;
+}
+
+.aite{
+    display: none;
+}

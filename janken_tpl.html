@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/sample.css">
+<title>じゃんけん</title>
+</head>
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<header>
+  <h1>じゃんけん</h1>
+</header>
+
+
+<main>
+  <ul>
+    <li id="gu_btn">グー</li>
+    <li id="cho_btn">チョキ</li>
+    <li id="par_btn">パー</li>
+  </ul>
+  <div>コンピュータの出した手は？「<span id="pc_hands">なに？</span>」</div>
+  <div id="judgement">勝ち</div>
+</main>
+
+<footer></footer>
+<script>
+//じゃんけん用のSCRIPTを書いてください
+
+  $("main").css("display","none");
+  $("main").fadeIn(1000);    
+    
+  let pc_hds;
+  let my_hds;
+  let result;
+
+  
+  $("#gu_btn").on("click", function(){
+    my_hds = 1;
+    janken(my_hds);
+    $("#judgement").append(result);
+  })
+
+  $("#cho_btn").on("click", function(){
+    my_hds = 2;
+    janken(my_hds);
+    $("#judgement").append(result);
+  })
+
+  $("#par_btn").on("click", function(){
+    my_hds = 3;
+    janken(my_hds);
+    $("#judgement").append(result);
+  })
+
+  //じゃんけんをひとまとめ
+  function janken(my_hds){
+    $("#pc_hands").empty();
+
+    pc_hds = Math.ceil(Math.random() * 3);
+    //pc_hds = 1;
+    if(pc_hds == 1){
+      // グー
+      $("#pc_hands").append("グー");
+    } else if(pc_hds == 2){
+      // チョキ
+      $("#pc_hands").append("チョキ");
+    } else if(pc_hds == 3){
+      // パー
+      $("#pc_hands").append("パー");
+    }
+    
+    $("#judgement").empty();
+    console.log(pc_hds);
+    console.log(my_hds);
+    if(pc_hds == my_hds){
+      result = "あいこ";
+      //alert(result);
+      //$("#judgement").empty();
+      
+    } 
+    
+    else if(pc_hds == 1){
+      // PC:グー
+      if(my_hds == 2){
+        // 自分：チョキ
+        result = "負け";
+        
+      } else if(my_hds == 3){
+        // 自分：パー
+        result = "勝ち";
+        
+      }
+    } 
+    
+    else if(pc_hds == 2){
+      // PC:チョキ
+      if(my_hds == 1){
+        // 自分：グー
+        result = "勝ち";
+        
+      } else if(my_hds == 3){
+        // 自分：パー
+        result = "負け";
+        
+      }
+    } 
+    
+    else if(pc_hds == 3){
+      // PC:パー
+      if(my_hds == 1){
+        // 自分：グー
+        result = "負け";
+      } else if(my_hds == 2){
+        // 自分：チョキ
+        result = "勝ち";
+      }
+    }
+    return result;
+  }
+    
+    
+    
+
+</script>
+</body>
+</html>
