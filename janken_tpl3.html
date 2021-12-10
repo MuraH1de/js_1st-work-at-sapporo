@@ -34,38 +34,37 @@
         <label for="young" class="form-label"><input type="radio" name="kind" id="young" Value="いもうと">いもうと（かんたん）</label>
       </form>
     </div>
-    <!-- <button id="select-ok">けってい</button> -->
-    <input type="button" value="けってい" onclick="clickBtn1()" />
+    <button id="select-ok">けってい</button>
     
   </div>
   
   <div class="aite txt-center">
-    <span id="span1"></span>と たいけつ するよ
+    <span id="span1"></span>と たいけつ するよ<br>
+    <button id="select-ok2">けってい</button>
   </div>
   
 
 
   <!-- 初期設定 -->
-  <div class="pc_hds_area">
-    <div class="pc_hds_img"><img src="janken/gu-.png"></div>
-    <button class="jk_btn_st">スタート</button>
-    <button class="jk_btn_jk" style="display: none;">じゃんけん</button>
-    <button class="jk_btn_rs" style="display: none;">もう1回（下のグーチョキパーから選んでね）</button>
-    <button class="jk_btn_pi" style="display: none;">ポイ！</button>
+  <div class="jk_area">
+    <div class="pc_hds_area">
+      <div class="pc_hds_img"><img src="janken/gu-.png"></div>
+      <button class="jk_btn_st">スタート</button>
+      <button class="jk_btn_jk" style="display: none;">じゃんけん</button>
+      <button class="jk_btn_rs" style="display: none;">もう1回（下のグーチョキパーから選んでね）</button>
+      <button class="jk_btn_pi" style="display: none;">さいしょから</button>
+    </div>
+
+    <!-- じゃんけん -->
+    <ul>
+      <li id="gu_btn">グー</li>
+      <li id="cho_btn">チョキ</li>
+      <li id="par_btn">パー</li>
+      <li id="sky_btn">さいきょう</li>
+    </ul>
+    <div>あいて のだした ては？「<span id="pc_hands">なに？</span>」</div>
+    <div id="judgement">かち</div>
   </div>
-
-  
-
-
-  <!-- じゃんけん -->
-  <ul>
-    <li id="gu_btn">グー</li>
-    <li id="cho_btn">チョキ</li>
-    <li id="par_btn">パー</li>
-    <li id="par_btn">さいきょう</li>
-  </ul>
-  <div>あいて のだした ては？「<span id="pc_hands">なに？</span>」</div>
-  <div id="judgement">かち</div>
 </main>
 
 <footer></footer>
@@ -82,31 +81,65 @@
   let rotate_hds;
   let aite;
   let aite_per;
+  
+  $("#open-y").on("click", function(){
+    $(".opening").css("display","none");
+    $(".select").fadeIn(1000);
+  })
+
 
   //ラジオボタンの取得
-  function clickBtn1() {
-    let str = "";
-    const color1 = document.form1.kind;
+  let elements = document.getElementsByName('kind');
+  let len = elements.length;
+  let checkValue = '';
+  
+  $("#select-ok").on("click", function(){
+    $(".select").css("display","none");
     
-    for (let i = 0; i < color1.length; i++) {
-      if (color1[i].checked) {//(color1[i].checked === true)と同じ
-        str = color1[i].value;
-        break;
+    for (let i = 0; i < len; i++){
+      if (elements.item(i).checked){
+          checkValue = elements.item(i).value;
       }
     }
-    document.getElementById("span1").textContent = str;
-    aite = document.getElementById("span1").textContent;
-    console.log(aite);
+    console.log(checkValue);
+    $("#span1").append(checkValue);
     $('.aite').show();
+  })
+  //ラジオボタン終了
 
-    aite_par = aite_percent(aite);
-    console.log(aite_per);
-  }
+  //確率決定＆勝ち負け判定
+  let aite_p = 0;
+  let result2;
+  let result3;
+  $("#select-ok2").on("click", function(){
+    aite_p = aite_percent(checkValue);
+    console.log(aite_p);
 
+    //勝ち負け判定
+    result2 = Math.ceil(Math.random() * 100);
+    console.log(result2);
+    if(result2 > aite_p){
+      //勝ち
+      result3 = "勝ち";
+    }
+    else if(result2 <= aite_p && result2 > aite_p/2){
+      //あいこ
+      result3 = "あいこ";
+    }
+    else if(result2 <= aite_p/2 && result2 >= 0){
+      //負け
+      result3 = "負け";
+    }
+    console.log(result3);
 
+    $(".aite").css("display","none");
+    $(".jk_area").fadeIn(1000);
+  })
+  //終わり
 
+  
 
-
+  //そのまま使う
   //初期状態
   $(".jk_btn_st").on("click", function(){
     $(this).hide();
@@ -133,13 +166,21 @@
     $(this).hide();
     $('.jk_btn_jk').show();
     kaiten();
+    $(".jk_area").css("display","none");
+    $(".opening").fadeIn(1000);
+    $("#span1").empty();
   })
-  
+  //
+
+
+
   //じゃんけん
   $("#gu_btn").on("click", function(){
     my_hds = 1;
     clearInterval(rotate_hds);
-    janken(my_hds, pc_hds);
+    //janken(my_hds, pc_hds);
+    janken2(my_hds, result3);
+
     $("#judgement").append(result);
     $(".jk_btn_jk").hide();
     $('.jk_btn_pi').show();
@@ -148,7 +189,9 @@
   $("#cho_btn").on("click", function(){
     my_hds = 2;
     clearInterval(rotate_hds);
-    janken(my_hds, pc_hds);
+    //janken(my_hds, pc_hds);
+    janken2(my_hds, result3);
+
     $("#judgement").append(result);
     $(".jk_btn_jk").hide();
     $('.jk_btn_pi').show();
@@ -157,29 +200,41 @@
   $("#par_btn").on("click", function(){
     my_hds = 3;
     clearInterval(rotate_hds);
-    janken(my_hds, pc_hds);
+    //janken(my_hds, pc_hds);
+    janken2(my_hds, result3);
+
     $("#judgement").append(result);
     $(".jk_btn_jk").hide();
     $('.jk_btn_pi').show();
   }) 
 
-  
+  $("#sky_btn").on("click", function(){
+    my_hds = 4;
+    clearInterval(rotate_hds);
+    //janken(my_hds, pc_hds);
+    janken2(my_hds, result3);
+
+    $("#judgement").append(result);
+    $(".jk_btn_jk").hide();
+    $('.jk_btn_pi').show();
+  }) 
 
 
   //相手の確率を決める
   function aite_percent(aite){
+    console.log(aite);
     switch(aite){
       case "おじいちゃん":
         aite_per = 90;
         break;
         case "おばあちゃん":
-        aite_per = 70;
+        aite_per = 80;
         break;
         case "おとうさん":
-        aite_per = 50;
+        aite_per = 70;
         break;
         case "おかあさん":
-        aite_per = 30;
+        aite_per = 66;
         break;
         case "おねえちゃん":
         aite_per = 20;
@@ -189,6 +244,7 @@
         break;
 
     }
+    return aite_per;
   }
 
   
@@ -196,7 +252,7 @@
   
   //じゃんけんの絵がパラパラ変わる
   function kaiten(){
-  rotate_hds = setInterval(function(){
+    rotate_hds = setInterval(function(){
       pc_hds = Math.ceil(Math.random() * 3);
       //pc_hds = 1;
       if(pc_hds == 1){
@@ -212,7 +268,102 @@
     },50);
   }
 
-  
+  //じゃんけん２
+  function janken2(my_hds, result3){
+    $("#pc_hands").empty();
+    $("#judgement").empty();
+    if(my_hds == 1){
+      //自分がグー
+      if(result3 == "あいこ"){
+        pc_hds = 1;
+        $("#pc_hands").append("グー");
+        $(".pc_hds_img").html('<img src="janken/gu-.png">');
+        result = "あいこ";
+      }
+      else if(result3 == "勝ち"){
+        pc_hds = 2;
+        $("#pc_hands").append("チョキ");
+        $(".pc_hds_img").html('<img src="janken/choki.png">');
+        result = "かち";
+      }
+      else if(result3 == "負け"){
+        pc_hds = 3;
+        $("#pc_hands").append("パー");
+        $(".pc_hds_img").html('<img src="janken/pa-.png">');
+        result = "まけ";
+      }
+    }
+    else if(my_hds == 2){
+      //自分がチョキ
+      if(result3 == "あいこ"){
+        pc_hds = 2;
+        $("#pc_hands").append("チョキ");
+        $(".pc_hds_img").html('<img src="janken/choki.png">');
+        result = "あいこ";
+      }
+      else if(result3 == "勝ち"){
+        pc_hds = 3;
+        $("#pc_hands").append("パー");
+        $(".pc_hds_img").html('<img src="janken/pa-.png">');
+        result = "かち";
+      }
+      else if(result3 == "負け"){
+        pc_hds = 1;
+        $("#pc_hands").append("グー");
+        $(".pc_hds_img").html('<img src="janken/gu-.png">');
+        result = "まけ";
+      }
+    }
+    else if(my_hds == 3){
+      //自分がパー
+      if(result3 == "あいこ"){
+        pc_hds = 3;
+        $("#pc_hands").append("パー");
+        $(".pc_hds_img").html('<img src="janken/pa-.png">');
+        result = "あいこ";
+      }
+      else if(result3 == "勝ち"){
+        pc_hds = 1;
+        $("#pc_hands").append("グー");
+        $(".pc_hds_img").html('<img src="janken/gu-.png">');
+        result = "かち";
+      }
+      else if(result3 == "負け"){
+        pc_hds = 2;
+        $("#pc_hands").append("チョキ");
+        $(".pc_hds_img").html('<img src="janken/choki.png">');
+        result = "まけ";
+      }
+    }
+    else if(my_hds == 4){
+      //自分がさいきょう
+      if(result3 == "あいこ"){
+        pc_hds = 4;
+        $("#pc_hands").append("さいきょう");
+        $(".pc_hds_img").html('<img src="janken/saikyo.png">');
+        result = "あいこ";
+      }
+      else if(result3 == "勝ち"){
+        //とりあえず相手はグーとする
+        pc_hds = 1;
+        $("#pc_hands").append("グー");
+        $(".pc_hds_img").html('<img src="janken/gu-.png">');
+        result = "かち";
+      }
+      else if(result3 == "負け"){
+        //負けはない。あいこにする
+        pc_hds = 4;
+        $("#pc_hands").append("さいきょう");
+        $(".pc_hds_img").html('<img src="janken/saikyo.png">');
+        result = "あいこ";
+      }
+    }
+    return result;
+  }
+
+
+
+
 
   //じゃんけんをひとまとめ
   function janken(my_hds, pc_hds){
